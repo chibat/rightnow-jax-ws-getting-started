@@ -1,0 +1,11 @@
+applications:
+- name: java-task
+  instances: 1
+  memory: 1024M
+  disk_quota: 1024M
+  no-route: true
+  buildpack: java_buildpack
+  command: sleep infinity
+  stack: cflinuxfs2
+  health-check-type: process
+  path: build/libs/java-blank.jar

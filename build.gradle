@@ -1,0 +1,66 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {url "https://plugins.gradle.org/m2/"}
+    }
+    dependencies {
+        classpath 'gradle.plugin.com.gorylenko.gradle-git-properties:gradle-git-properties:1.4.17'
+    }
+}
+apply plugin: 'java'
+apply plugin:'application'
+apply plugin: 'eclipse'
+apply plugin: 'com.gorylenko.gradle-git-properties'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+tasks.withType(AbstractCompile) each { it.options.encoding = 'UTF-8' }
+repositories {
+    mavenCentral()
+}
+dependencies {
+    compileOnly 'org.projectlombok:lombok:1.16.16'
+    testCompile 'junit:junit:4.12'
+    testCompileOnly 'org.projectlombok:lombok:1.16.16'
+}
+mainClassName = "app.SampleClient"
+jar {
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+}
+task wsImport {
+    doLast {
+        def WSDL_URL='http://myhelp.oracle.com/cgi-bin/myInterface.cfg/services/soap?wsdl'
+        "wsimport  -s src/main/java -encoding UTF-8 -J-Djavax.xml.accessExternalSchema=all -XadditionalHeaders -Xnocompile -b customizer.xml ${WSDL_URL}".execute().waitFor()
+    }
+}
+task wsClean(type: Delete) {
+    delete fileTree('src/main/java/com/rightnow/ws') {
+        include '**/*.java'
+    }
+}
+compileJava.dependsOn wsImport
+clean.dependsOn wsClean
+// eclipse
+eclipse {
+    copy {
+        from 'eclipse/org.eclipse.core.resources.prefs'
+        into '.settings'
+    }
+    copy{
+        from 'eclipse/org.eclipse.core.runtime.prefs'
+        into '.settings'
+    }
+}
+eclipseJdt {
+    doLast {
+        copy {
+            from 'eclipse/org.eclipse.jdt.core.prefs'
+            into '.settings'
+        }
+        copy {
+            from 'eclipse/org.eclipse.jdt.ui.prefs'
+            into '.settings'
+        }
+    }
+}
