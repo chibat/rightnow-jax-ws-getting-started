@@ -16,7 +16,7 @@ Fix the `src/main/java/app/Config.java` by your RightNow connect information.
     public static final String USERNAME = "__REPLACE_YOUR_USERNAME__";
     public static final String PASSWORD = "__REPLACE_YOUR_PASSWORD__";
     public static final String APP_ID = "__REPLACE_YOUR_APP_ID__";
-    public static final String WSDL_URL = "__REPLACE__"
+    public static final String WSDL_URL = "__REPLACE_WSDL_URL__"
 ```
 
 ## Gnerate client code

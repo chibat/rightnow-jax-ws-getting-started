@@ -9,5 +9,5 @@ public class Config {
     /**
      * example: http://myhelp.oracle.com/cgi-bin/myInterface.cfg/services/soap?wsdl
      */
-    public static final String WSDL_URL = "__REPLACE__";
+    public static final String WSDL_URL = "__REPLACE_WSDL_URL__";
 }
